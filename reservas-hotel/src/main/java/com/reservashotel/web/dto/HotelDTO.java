@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HotelDTO {
-    private Integer idHotel;
+    private Long idHotel;
 
     private String nombre;
 
@@ -21,7 +21,7 @@ public class HotelDTO {
 
     private  String correo;
 
-    private List<String> habitaciones;
+    private List<Integer> habitaciones;
 
     private String numHabitaciones;
 

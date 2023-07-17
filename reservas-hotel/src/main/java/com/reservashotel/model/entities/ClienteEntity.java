@@ -1,18 +1,20 @@
 package com.reservashotel.model.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
+@Setter
 @Table(name = "cliente")
 public class ClienteEntity {
     @Id
-    private Integer idCliente;
+    private Long idCliente;
+
+    private String tipoDocumento;
 
     private String nombre;
 

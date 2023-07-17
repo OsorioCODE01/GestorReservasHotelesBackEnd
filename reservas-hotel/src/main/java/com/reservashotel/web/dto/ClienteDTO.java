@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 public class ClienteDTO {
-    private Integer idCliente;
+    private Long idCliente;
+
+    private String tipoDocumento;
 
     private String nombre;
 

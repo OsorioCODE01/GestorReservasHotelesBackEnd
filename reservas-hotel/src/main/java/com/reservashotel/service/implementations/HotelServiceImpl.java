@@ -8,6 +8,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class HotelServiceImpl  implements HotelService {
 
@@ -24,7 +26,17 @@ public class HotelServiceImpl  implements HotelService {
     }
 
     @Override
-    public HotelDTO obtenerHotel(Integer idHotel) {
+    public HotelDTO obtenerHotel(Long idHotel) {
+        return null;
+    }
+
+    @Override
+    public HotelDTO editarHotel(Long idHotel) {
+        return null;
+    }
+
+    @Override
+    public List<HotelDTO> obtenerHoteles() {
         return null;
     }
 }

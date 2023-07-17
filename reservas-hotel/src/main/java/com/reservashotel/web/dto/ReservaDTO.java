@@ -14,11 +14,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReservaDTO {
-    private Integer idCliente;
 
-    private Integer idHotel;
+    private Long idReserva;
 
-    private List<String> habitaciones;
+    private ClienteDTO idCliente;
+
+    private HotelDTO idHotel;
+
+    private List<Integer> habitaciones;
 
     private Integer numHabitaciones;
 

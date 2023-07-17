@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("apiHotel")
 public class HotelController {
@@ -21,7 +23,17 @@ public class HotelController {
     }
 
     @GetMapping("obtenerHotel")
-    public ResponseEntity<HotelDTO> obtenerHotel(@RequestParam("idHotel") Integer idHotel){
+    public ResponseEntity<HotelDTO> obtenerHotel(@RequestParam("idHotel") Long idHotel){
         return new ResponseEntity<>(hotelService.obtenerHotel(idHotel),HttpStatus.FOUND);
+    }
+
+    @GetMapping("obtenerHoteles")
+    public ResponseEntity<List<HotelDTO>> obtenerHoteles(){
+        return new ResponseEntity<>(hotelService.obtenerHoteles(),HttpStatus.FOUND);
+    }
+
+    @PutMapping("editarHotel")
+    public ResponseEntity<HotelDTO> editarHotel(@RequestParam("idHotel") Long idHotel){
+        return new ResponseEntity<>(hotelService.editarHotel(idHotel), HttpStatus.FOUND);
     }
 }

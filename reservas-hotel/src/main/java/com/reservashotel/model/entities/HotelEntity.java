@@ -11,11 +11,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
+@Setter
 @Table(name = "hotel")
 public class HotelEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer idHotel;
+    private Long idHotel;
 
     private String nombre;
 
@@ -23,7 +24,7 @@ public class HotelEntity {
 
     private String correo;
 
-    private List<String> habitaciones;
+    private List<Integer> habitaciones;
 
     private String numHabitaciones;
 

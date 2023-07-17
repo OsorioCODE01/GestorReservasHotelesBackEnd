@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @RestController
@@ -22,8 +23,23 @@ public class ClienteController {
     }
 
     @GetMapping("obtenerCliente")
-    public ResponseEntity<ClienteDTO> obtenerCliente (@RequestParam("idCliente") Integer idCliente){
+    public ResponseEntity<ClienteDTO> obtenerCliente (@RequestParam("idCliente") Long idCliente){
         return new ResponseEntity<>(clienteService.obtenerCliente(idCliente), HttpStatus.FOUND);
+    }
+
+    @GetMapping("obtenerClientes")
+    public ResponseEntity<List<ClienteDTO>> obtenerClientes(){
+        return new ResponseEntity<>(clienteService.obtenerClientes(), HttpStatus.FOUND);
+    }
+
+    @PutMapping("editarCliente")
+    public ResponseEntity<ClienteDTO> editarCliente(@RequestParam("idCliente") Long idCliente, @RequestBody ClienteDTO clienteDTO){
+        return new ResponseEntity<>(clienteService.editarCliente(idCliente, clienteDTO), HttpStatus.FOUND);
+    }
+
+    @DeleteMapping("eliminarCliente")
+    public ResponseEntity<ClienteDTO> eliminarCliente(@RequestParam("idCliente") Long idCliente){
+        return new ResponseEntity<>(clienteService.eliminarCliente(idCliente), HttpStatus.FOUND);
     }
 
 }
