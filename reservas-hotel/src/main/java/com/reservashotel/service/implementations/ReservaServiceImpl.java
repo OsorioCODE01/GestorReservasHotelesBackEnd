@@ -1,5 +1,7 @@
 package com.reservashotel.service.implementations;
 
+import com.reservashotel.model.entities.ReservaEntity;
+import com.reservashotel.model.entities.ReservaPK;
 import com.reservashotel.model.repository.ReservaRepository;
 import com.reservashotel.service.interfaces.ReservaService;
 import com.reservashotel.web.dto.ReservaDTO;
@@ -20,7 +22,10 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     public ReservaDTO crearReserva(ReservaDTO reservaDTO) {
-        return null;
+        ReservaEntity reservaEntity = modelMapper.map(reservaDTO, ReservaEntity.class);
+        reservaEntity.setIdReserva(new ReservaPK(reservaDTO.getIdCliente(), reservaDTO.getIdHotel()));
+        reservaEntity = reservaRepository.save(reservaEntity);
+        return modelMapper.map(reservaEntity, ReservaDTO.class);
     }
 
     @Override

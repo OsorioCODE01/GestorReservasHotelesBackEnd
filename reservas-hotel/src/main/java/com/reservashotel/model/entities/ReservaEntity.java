@@ -3,6 +3,10 @@ package com.reservashotel.model.entities;
 import lombok.*;
 
 import jakarta.persistence.*;
+import org.springframework.cglib.core.Local;
+
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -14,29 +18,19 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name= "reservas")
-public class ReservaEntity {
+public class ReservaEntity implements Serializable {
 
-    @Id
-    private Long idReserva;
+    @EmbeddedId
+    private ReservaPK idReserva;
 
-    @ManyToOne
-    @JoinColumn(name = "idCliente")
-    private ClienteEntity cliente;
-
-    @ManyToOne
-    @JoinColumn(name = "idHotel")
-    private HotelEntity hotel;
-
-    private List<Integer> habitaciones;
-
+    @Column(name = "num_habitaciones")
     private Integer numHabitaciones;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<ClienteEntity> clientes;
+    @Column(name = "fecha_inicio")
+    private String fechaInicio;
 
-    private Date fechaInicio;
-
-    private Date fechaFin;
+    @Column(name = "fecha_fin")
+    private String fechaFin;
 
 
 }

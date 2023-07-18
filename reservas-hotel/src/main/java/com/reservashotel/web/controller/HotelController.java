@@ -2,6 +2,7 @@ package com.reservashotel.web.controller;
 
 import com.reservashotel.service.interfaces.HotelService;
 import com.reservashotel.web.dto.HotelDTO;
+import com.reservashotel.web.dto.response.HotelResponse;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,12 +24,12 @@ public class HotelController {
     }
 
     @GetMapping("obtenerHotel")
-    public ResponseEntity<HotelDTO> obtenerHotel(@RequestParam("idHotel") Long idHotel){
+    public ResponseEntity<HotelResponse> obtenerHotel(@RequestParam("idHotel") Long idHotel){
         return new ResponseEntity<>(hotelService.obtenerHotel(idHotel),HttpStatus.FOUND);
     }
 
     @GetMapping("obtenerHoteles")
-    public ResponseEntity<List<HotelDTO>> obtenerHoteles(){
+    public ResponseEntity<List<HotelResponse>> obtenerHoteles(){
         return new ResponseEntity<>(hotelService.obtenerHoteles(),HttpStatus.FOUND);
     }
 

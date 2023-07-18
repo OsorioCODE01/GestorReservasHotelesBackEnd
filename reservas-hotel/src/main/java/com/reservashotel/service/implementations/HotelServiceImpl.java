@@ -1,17 +1,17 @@
 package com.reservashotel.service.implementations;
 
 
-import com.reservashotel.model.entities.ClienteEntity;
+
 import com.reservashotel.model.entities.HotelEntity;
 import com.reservashotel.model.repository.HotelRespository;
 import com.reservashotel.service.interfaces.HotelService;
 import com.reservashotel.web.dto.HotelDTO;
+import com.reservashotel.web.dto.response.HotelResponse;
 import com.reservashotel.web.exceptions.types.BadRequestException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,19 +25,23 @@ public class HotelServiceImpl  implements HotelService {
     private ModelMapper modelMapper;
 
 
+
+
     @Override
     public HotelDTO crearHotel(HotelDTO hotelDTO) {
         if(hotelDTO.getIdHotel().describeConstable().isEmpty()) throw new BadRequestException("El id no puede estar vacio");
+
         HotelEntity hotelEntity = modelMapper.map(hotelDTO, HotelEntity.class);
         hotelEntity = hotelRespository.save(hotelEntity);
         return modelMapper.map(hotelEntity, HotelDTO.class);
     }
 
     @Override
-    public HotelDTO obtenerHotel(Long idHotel) {
+    public HotelResponse obtenerHotel(Long idHotel) {
         HotelEntity hotelEntity = hotelRespository.findById(idHotel).
                 orElseThrow(()-> new BadRequestException("No se econtro un hotel con la id: " + idHotel));
-        return modelMapper.map(hotelEntity, HotelDTO.class);
+        hotelEntity.actualizarNumhabitaciones();
+        return modelMapper.map(hotelEntity, HotelResponse.class);
     }
 
     @Override
@@ -50,10 +54,10 @@ public class HotelServiceImpl  implements HotelService {
     }
 
     @Override
-    public List<HotelDTO> obtenerHoteles() {
+    public List<HotelResponse> obtenerHoteles() {
         List<HotelEntity> hotelEntities = hotelRespository.findAll();
         return hotelEntities.stream().
-                map(hotelEntity -> modelMapper.map(hotelEntity, HotelDTO.class))
+                map(hotelEntity -> modelMapper.map(hotelEntity, HotelResponse.class))
                 .collect(Collectors.toList());
     }
 

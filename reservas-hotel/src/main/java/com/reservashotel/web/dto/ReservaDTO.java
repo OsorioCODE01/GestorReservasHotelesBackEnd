@@ -6,8 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
-import java.util.List;
 
 @Data
 @Builder
@@ -15,19 +15,11 @@ import java.util.List;
 @AllArgsConstructor
 public class ReservaDTO {
 
-    private Long idReserva;
+    private Long idCliente;
 
-    private ClienteDTO idCliente;
+    private Long idHotel;
 
-    private HotelDTO idHotel;
+    private String fechaInicio;
 
-    private List<Integer> habitaciones;
-
-    private Integer numHabitaciones;
-
-    private List<ClienteDTO> clientes;
-
-    private Date fechaInicio;
-
-    private Date fechaFin;
+    private String fechaFin;
 }

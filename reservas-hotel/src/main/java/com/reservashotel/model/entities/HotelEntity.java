@@ -1,7 +1,5 @@
 package com.reservashotel.model.entities;
 
-
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,8 +22,18 @@ public class HotelEntity {
 
     private String correo;
 
-    private List<Integer> habitaciones;
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HabitacionEntity> habitaciones;
 
-    private String numHabitaciones;
+    @Column(name = "num_habitaciones")
+    private Integer numHabitaciones;
+
+    public void agregarHabitacion(HabitacionEntity habitacion){
+        habitaciones.add(habitacion);
+        numHabitaciones = habitaciones.size();
+    }
+    public void actualizarNumhabitaciones(){
+        numHabitaciones = habitaciones.size();
+    }
 
 }

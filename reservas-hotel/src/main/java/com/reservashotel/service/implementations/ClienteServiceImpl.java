@@ -32,6 +32,7 @@ public class ClienteServiceImpl  implements ClienteService {
         if(clienteDTO.getTelefono().isEmpty()) throw new BadRequestException("Telefono no puede estar vacio");
         if(clienteDTO.getCorreo().isEmpty()) throw new BadRequestException("El correo no debe esta vacio");
         if(clienteDTO.getContrasena().isEmpty()) throw new BadRequestException("Debe ingresar una contraseña");
+
         ClienteEntity clienteEntity = modelMapper.map(clienteDTO, ClienteEntity.class);
         clienteEntity = clienteRespository.save(clienteEntity);
         return modelMapper.map(clienteEntity, ClienteDTO.class);
