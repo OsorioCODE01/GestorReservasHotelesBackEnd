@@ -33,7 +33,12 @@ public class HotelController {
     }
 
     @PutMapping("editarHotel")
-    public ResponseEntity<HotelDTO> editarHotel(@RequestParam("idHotel") Long idHotel){
-        return new ResponseEntity<>(hotelService.editarHotel(idHotel), HttpStatus.FOUND);
+    public ResponseEntity<HotelDTO> editarHotel(@RequestParam("idHotel") Long idHotel, @RequestBody HotelDTO hotelDTO){
+        return new ResponseEntity<>(hotelService.editarHotel(idHotel, hotelDTO), HttpStatus.FOUND);
+    }
+
+    @DeleteMapping("borrarHotel")
+    public ResponseEntity<HotelDTO> borrarHotel(@RequestParam("idHotel") Long idHotel){
+        return new ResponseEntity<>(hotelService.borrarHotel(idHotel), HttpStatus.FOUND);
     }
 }

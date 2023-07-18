@@ -20,9 +20,11 @@ public class ReservaEntity {
     private Long idReserva;
 
     @ManyToOne
+    @JoinColumn(name = "idCliente")
     private ClienteEntity cliente;
 
     @ManyToOne
+    @JoinColumn(name = "idHotel")
     private HotelEntity hotel;
 
     private List<Integer> habitaciones;

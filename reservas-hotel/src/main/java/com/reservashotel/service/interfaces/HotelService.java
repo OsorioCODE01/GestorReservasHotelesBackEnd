@@ -10,7 +10,9 @@ public interface HotelService {
 
     HotelDTO obtenerHotel(Long idHotel);
 
-    HotelDTO editarHotel(Long idHotel);
+    HotelDTO editarHotel(Long idHotel, HotelDTO hotelDTO);
 
     List<HotelDTO> obtenerHoteles();
+
+    HotelDTO borrarHotel(Long idHotel);
 }
