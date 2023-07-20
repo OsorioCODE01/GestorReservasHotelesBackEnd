@@ -13,7 +13,7 @@ import lombok.*;
 public class HabitacionEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idHabitacion;
 
     private String numHabitacion;

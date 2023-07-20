@@ -29,7 +29,11 @@ public class HotelServiceImpl  implements HotelService {
 
     @Override
     public HotelDTO crearHotel(HotelDTO hotelDTO) {
-        if(hotelDTO.getIdHotel().describeConstable().isEmpty()) throw new BadRequestException("El id no puede estar vacio");
+        if(hotelDTO.getIdHotel().describeConstable().isEmpty() ||
+                hotelDTO.getCorreo().isEmpty() ||
+                hotelDTO.getNombre().isEmpty() ||
+                hotelDTO.getTelefono().isEmpty()
+        ) throw new BadRequestException("No se pueden omitir campos del hotel.");
 
         HotelEntity hotelEntity = modelMapper.map(hotelDTO, HotelEntity.class);
         hotelEntity = hotelRespository.save(hotelEntity);

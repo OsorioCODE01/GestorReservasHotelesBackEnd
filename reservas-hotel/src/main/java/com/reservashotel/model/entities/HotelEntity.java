@@ -29,6 +29,8 @@ public class HotelEntity {
     private Integer numHabitaciones;
 
     public void agregarHabitacion(HabitacionEntity habitacion){
+        habitacion.setStatus(false);
+        habitacion.setHotel(this); //relacion bidireccional
         habitaciones.add(habitacion);
         numHabitaciones = habitaciones.size();
     }
@@ -36,4 +38,10 @@ public class HotelEntity {
         numHabitaciones = habitaciones.size();
     }
 
+    public void quitarHabitacion (HabitacionEntity habitacion){
+        habitacion.setStatus(false);
+        habitacion.setHotel(null); // Eliminar la relación bidireccional
+        habitaciones.remove(habitacion);
+        numHabitaciones = habitaciones.size();
+    }
 }

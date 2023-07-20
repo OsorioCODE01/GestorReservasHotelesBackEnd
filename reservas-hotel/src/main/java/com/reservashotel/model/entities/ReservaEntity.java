@@ -3,11 +3,7 @@ package com.reservashotel.model.entities;
 import lombok.*;
 
 import jakarta.persistence.*;
-import org.springframework.cglib.core.Local;
 
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 
@@ -18,19 +14,53 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name= "reservas")
-public class ReservaEntity implements Serializable {
+public class ReservaEntity{
 
-    @EmbeddedId
-    private ReservaPK idReserva;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idReserva;
 
-    @Column(name = "num_habitaciones")
-    private Integer numHabitaciones;
+    @ManyToOne
+    @JoinColumn(name = "id_Hotel")
+    private HotelEntity idHotel;
+
+    @ManyToOne
+    @JoinColumn(name = "id_cliente")
+    private ClienteEntity idCliente;
 
     @Column(name = "fecha_inicio")
     private String fechaInicio;
 
     @Column(name = "fecha_fin")
     private String fechaFin;
+
+    @ManyToMany
+    private List<ClienteEntity> clientes;
+
+    @OneToMany
+    private List<HabitacionEntity> habitaciones;
+
+
+    @Column(name = "num_habitaciones")
+    private Integer numHabitaciones;
+
+    public void agregarCliente(ClienteEntity cliente){
+        clientes.add(cliente);
+    }
+    public void quitarCliente(ClienteEntity cliente){
+        clientes.remove(cliente);
+    }
+
+    public void agregarHabitacion(HabitacionEntity habitacion){
+        habitacion.setStatus(true);
+        habitaciones.add(habitacion);
+        numHabitaciones = habitaciones.size();
+    }
+    public void quitarHabitacion (HabitacionEntity habitacion){
+        habitacion.setStatus(false);
+        habitaciones.remove(habitacion);
+        numHabitaciones = habitaciones.size();
+    }
 
 
 }

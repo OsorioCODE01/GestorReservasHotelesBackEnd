@@ -30,6 +30,8 @@ public class HabitacionServiceImpl implements HabitacionService {
 
     @Override
     public HabitacionDTO crearHabitacion(HabitacionDTO habitacionDTO) {
+        if(habitacionDTO.getIdHotel() == null  || habitacionDTO.getNumHabitacion().isEmpty()) throw new BadRequestException("No se pueden omitir datos de la habitacion");
+        if(habitacionDTO.getStatus() == null) habitacionDTO.setStatus(false);
         HabitacionEntity habitacionEntity = modelMapper.map(habitacionDTO, HabitacionEntity.class);
         habitacionEntity = habitacionRespository.save(habitacionEntity);
 

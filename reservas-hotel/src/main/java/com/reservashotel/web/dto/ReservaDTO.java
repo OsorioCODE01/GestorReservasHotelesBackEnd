@@ -1,13 +1,9 @@
 package com.reservashotel.web.dto;
 
-import com.reservashotel.model.entities.ClienteEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 @Builder
@@ -15,9 +11,11 @@ import java.util.Date;
 @AllArgsConstructor
 public class ReservaDTO {
 
-    private Long idCliente;
+    private Long idReserva;
 
-    private Long idHotel;
+    private HotelDTO idHotel;
+
+    private ClienteDTO idCliente;
 
     private String fechaInicio;
 
