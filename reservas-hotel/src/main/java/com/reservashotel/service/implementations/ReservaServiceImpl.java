@@ -64,6 +64,23 @@ public class ReservaServiceImpl implements ReservaService {
     }
 
     @Override
+    public List<ReservaResponse> obtenerReservasPorCliente(Long idCliente) {
+        List<ReservaEntity> reservaEntities = reservaRepository.findByIdCliente(idCliente);
+        return reservaEntities.stream().
+                map(reserva -> modelMapper.map(reserva, ReservaResponse.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ReservaResponse> obtenerReservasPorHotel(Long idHotel) {
+        List<ReservaEntity> reservaEntities = reservaRepository.findByIdHotel(idHotel);
+        return reservaEntities.stream().
+                map(reserva -> modelMapper.map(reserva, ReservaResponse.class))
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
     public ReservaResponse editarReserva(Long idReserva, Integer tipo, Long idObjeto, ReservaDTO infoNueva) {
         ReservaEntity reservaEntity = reservaRepository.findById(idReserva)
                 .orElseThrow(()-> new BadRequestException("No se econtró ninguna reserva con la id: " +idReserva));
@@ -105,8 +122,9 @@ public class ReservaServiceImpl implements ReservaService {
     @Override
     public ReservaDTO borrarReserva(Long idReserva) {
         ReservaEntity reservaEntity = reservaRepository.findById(idReserva)
-                .orElseThrow(()-> new BadRequestException("No se econtró ninguna reserva con la id:" + idReserva));
+                .orElseThrow(() -> new BadRequestException("No se econtró ninguna reserva con la id:" + idReserva));
         reservaRepository.delete(reservaEntity);
         return modelMapper.map(reservaEntity, ReservaDTO.class);
     }
 }
+
