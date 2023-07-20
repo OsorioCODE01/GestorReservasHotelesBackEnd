@@ -15,4 +15,8 @@ public interface ReservaService {
      ReservaResponse editarReserva(Long idReserva, Integer tipo, Long idObjeto, ReservaDTO infoNueva);
 
      ReservaDTO borrarReserva(Long idReserva);
+
+     List<ReservaResponse> obtenerReservasPorCliente(Long idCliente);
+
+     List<ReservaResponse> obtenerReservasPorHotel(Long idHotel);
 }

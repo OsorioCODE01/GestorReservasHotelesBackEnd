@@ -31,6 +31,15 @@ public class ReservaController {
     public ResponseEntity<List<ReservaResponse>> obtenerReservas(){
         return new ResponseEntity<>(reservaService.obtenerReservas(), HttpStatus.FOUND);
     }
+    @GetMapping("obtenerReservasPorCliente")
+    public ResponseEntity<List<ReservaResponse>> obtenerReservasPorCliente(@RequestParam("idCliente") Long idCliente){
+        return new ResponseEntity<>(reservaService.obtenerReservasPorCliente(idCliente), HttpStatus.FOUND);
+    }
+
+    @GetMapping("obtenerReservasPorHotel")
+    public ResponseEntity<List<ReservaResponse>> obtenerReservasPorHotel(@RequestParam("idHotel") Long idHotel){
+        return new ResponseEntity<>(reservaService.obtenerReservasPorHotel(idHotel), HttpStatus.FOUND);
+    }
 
     @PutMapping("editarReserva")
     public ResponseEntity<ReservaResponse> editarReserva(@RequestParam("idReserva") Long idReserva,
