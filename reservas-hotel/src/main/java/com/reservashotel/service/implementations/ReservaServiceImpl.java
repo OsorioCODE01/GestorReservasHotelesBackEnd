@@ -37,6 +37,11 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     public ReservaDTO crearReserva(ReservaDTO reservaDTO) {
+
+        if(reservaRepository.findByHotelAndCliente(reservaDTO.getIdCliente().getIdCliente(), reservaDTO.getIdHotel().getIdHotel()).isPresent()) {
+            throw new BadRequestException("La reserva ya existe");
+        }
+
         if (reservaDTO.getFechaFin().isEmpty() || reservaDTO.getFechaInicio().isEmpty()){
             throw new BadRequestException("No se pueden omitir las fechas de la reserva.");
         }
@@ -65,7 +70,8 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     public List<ReservaResponse> obtenerReservasPorCliente(Long idCliente) {
-        List<ReservaEntity> reservaEntities = reservaRepository.findByIdCliente(idCliente);
+        List<ReservaEntity> reservaEntities = reservaRepository.findByIdCliente(idCliente)
+                .orElseThrow(()-> new BadRequestException("No se econtró reservasd con el cliente: "+ idCliente));
         return reservaEntities.stream().
                 map(reserva -> modelMapper.map(reserva, ReservaResponse.class))
                 .collect(Collectors.toList());
@@ -73,10 +79,18 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     public List<ReservaResponse> obtenerReservasPorHotel(Long idHotel) {
-        List<ReservaEntity> reservaEntities = reservaRepository.findByIdHotel(idHotel);
+        List<ReservaEntity> reservaEntities = reservaRepository.findByIdHotel(idHotel)
+                .orElseThrow(()-> new BadRequestException("No se econtró reservas en el hotel: " +idHotel));
         return reservaEntities.stream().
                 map(reserva -> modelMapper.map(reserva, ReservaResponse.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public ReservaResponse ObtenerReservaPorHotelyCliente(Long idCliente, Long idHotel) {
+        ReservaEntity reservaEntity = reservaRepository.findByHotelAndCliente(idCliente, idHotel)
+                .orElseThrow(()-> new BadRequestException("No se econtró ninguna reserva con idHotel: "+ idHotel +" y idCliente: "+idCliente));
+        return modelMapper.map(reservaEntity, ReservaResponse.class);
     }
 
 

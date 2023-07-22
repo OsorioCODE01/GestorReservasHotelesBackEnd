@@ -26,6 +26,7 @@ public class ClienteServiceImpl  implements ClienteService {
 
     @Override
     public ClienteDTO crearCliente(ClienteDTO clienteDTO) {
+        if(clienteRespository.existsById(clienteDTO.getIdCliente())) throw new BadRequestException("El usuario ya se encuentra registrado.");
         if(clienteDTO.getIdCliente().describeConstable().isEmpty()) throw new BadRequestException("La id no puede estar vacia");
         if(clienteDTO.getNombre().isEmpty()) throw new BadRequestException("El nombre no puede estar vacio");
         if(clienteDTO.getTipoDocumento().isEmpty()) throw new BadRequestException("Debe especificarse un tipo de documento");

@@ -5,13 +5,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ReservaRepository extends JpaRepository<ReservaEntity, Long> {
 
     @Query(value = "SELECT * FROM reservas WHERE ID_HOTEL= :idHotel", nativeQuery = true)
-    List<ReservaEntity> findByIdHotel(Long idHotel);
+  Optional<List<ReservaEntity> >   findByIdHotel(Long idHotel);
 
     @Query(value = "SELECT * FROM reservas WHERE ID_CLIENTE= :idCliente", nativeQuery = true)
-    List<ReservaEntity> findByIdCliente(Long idCliente);
+    Optional<List<ReservaEntity>>  findByIdCliente(Long idCliente);
+
+    @Query(value = "SELECT * FROM reservas WHERE ID_CLIENTE= :idCliente AND ID_HOTEL= :idHotel", nativeQuery = true)
+   Optional<ReservaEntity>  findByHotelAndCliente (Long idCliente, Long idHotel);
 }
+
 

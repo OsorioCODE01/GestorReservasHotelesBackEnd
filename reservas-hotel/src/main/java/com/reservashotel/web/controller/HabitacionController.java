@@ -22,26 +22,26 @@ public class HabitacionController {
 
     @GetMapping("obtenerHabitacion")
     public ResponseEntity<HabitacionDTO> obtenerHabitacion(@RequestParam("idHabitacion") Long idHabitacion){
-        return new ResponseEntity<>(habitacionService.obtenerHabitacion(idHabitacion), HttpStatus.FOUND);
+        return new ResponseEntity<>(habitacionService.obtenerHabitacion(idHabitacion), HttpStatus.OK);
     }
 
     @GetMapping("habitacionesPorHotel")
     public ResponseEntity<List<HabitacionDTO>> habitacionesPorHotel(@RequestParam("idHotel") Long idhotel){
-        return new ResponseEntity<>(habitacionService.habitacionesPorHotel(idhotel),HttpStatus.FOUND);
+        return new ResponseEntity<>(habitacionService.habitacionesPorHotel(idhotel),HttpStatus.OK);
     }
 
     @GetMapping("allHabitaciones")
     public ResponseEntity<List<HabitacionDTO>> allHabitaciones(){
-        return new ResponseEntity<>(habitacionService.allHabitaciones(),HttpStatus.FOUND);
+        return new ResponseEntity<>(habitacionService.allHabitaciones(),HttpStatus.OK);
     }
 
     @PutMapping("editarHabtiacion")
     public ResponseEntity<HabitacionDTO> editarHabitacion(@RequestParam("idHabitacion") Long idHabitacion, @RequestBody HabitacionDTO habitacionDTO){
-        return new ResponseEntity<>(habitacionService.editarHabitacion(idHabitacion, habitacionDTO),HttpStatus.FOUND);
+        return new ResponseEntity<>(habitacionService.editarHabitacion(idHabitacion, habitacionDTO),HttpStatus.OK);
     }
 
     @DeleteMapping("borrarHabitacion")
     public ResponseEntity<HabitacionDTO> borrarHabitacion(@RequestParam("idHabitacion") Long idHabitacion){
-        return new ResponseEntity<>(habitacionService.borrarHabitacion(idHabitacion),HttpStatus.FOUND);
+        return new ResponseEntity<>(habitacionService.borrarHabitacion(idHabitacion),HttpStatus.OK);
     }
 }

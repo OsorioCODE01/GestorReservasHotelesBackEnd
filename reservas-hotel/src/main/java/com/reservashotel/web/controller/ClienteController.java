@@ -19,33 +19,30 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
-    @Autowired
-    private ClienteRespository clienteRespository;
 
     @PostMapping("crearCliente")
     public ResponseEntity<ClienteDTO> crearCliente(@RequestBody ClienteDTO clienteDTO){
-        if(clienteRespository.existsById(clienteDTO.getIdCliente())) throw new BadRequestException("El usuario ya se encuentra registrado.");
         return new ResponseEntity<>(clienteService.crearCliente(clienteDTO), HttpStatus.CREATED);
     }
 
     @GetMapping("obtenerCliente")
     public ResponseEntity<ClienteDTO> obtenerCliente (@RequestParam("idCliente") Long idCliente){
-        return new ResponseEntity<>(clienteService.obtenerCliente(idCliente), HttpStatus.FOUND);
+        return new ResponseEntity<>(clienteService.obtenerCliente(idCliente), HttpStatus.OK);
     }
 
     @GetMapping("obtenerClientes")
     public ResponseEntity<List<ClienteDTO>> obtenerClientes(){
-        return new ResponseEntity<>(clienteService.obtenerClientes(), HttpStatus.FOUND);
+        return new ResponseEntity<>(clienteService.obtenerClientes(), HttpStatus.OK);
     }
 
     @PutMapping("editarCliente")
     public ResponseEntity<ClienteDTO> editarCliente(@RequestParam("idCliente") Long idCliente, @RequestBody ClienteDTO clienteDTO){
-        return new ResponseEntity<>(clienteService.editarCliente(idCliente, clienteDTO), HttpStatus.FOUND);
+        return new ResponseEntity<>(clienteService.editarCliente(idCliente, clienteDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("eliminarCliente")
     public ResponseEntity<ClienteDTO> eliminarCliente(@RequestParam("idCliente") Long idCliente){
-        return new ResponseEntity<>(clienteService.eliminarCliente(idCliente), HttpStatus.FOUND);
+        return new ResponseEntity<>(clienteService.eliminarCliente(idCliente), HttpStatus.OK);
     }
 
 }
