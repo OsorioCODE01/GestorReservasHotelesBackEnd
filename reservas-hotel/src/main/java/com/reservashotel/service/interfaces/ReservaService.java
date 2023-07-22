@@ -19,4 +19,6 @@ public interface ReservaService {
      List<ReservaResponse> obtenerReservasPorCliente(Long idCliente);
 
      List<ReservaResponse> obtenerReservasPorHotel(Long idHotel);
+
+     ReservaResponse ObtenerReservaPorHotelyCliente(Long idCliente, Long idHotel);
 }

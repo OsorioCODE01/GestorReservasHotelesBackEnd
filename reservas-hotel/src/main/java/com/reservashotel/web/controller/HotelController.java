@@ -30,21 +30,21 @@ public class HotelController {
 
     @GetMapping("obtenerHotel")
     public ResponseEntity<HotelResponse> obtenerHotel(@RequestParam("idHotel") Long idHotel){
-        return new ResponseEntity<>(hotelService.obtenerHotel(idHotel),HttpStatus.FOUND);
+        return new ResponseEntity<>(hotelService.obtenerHotel(idHotel),HttpStatus.OK);
     }
 
     @GetMapping("obtenerHoteles")
     public ResponseEntity<List<HotelResponse>> obtenerHoteles(){
-        return new ResponseEntity<>(hotelService.obtenerHoteles(),HttpStatus.FOUND);
+        return new ResponseEntity<>(hotelService.obtenerHoteles(),HttpStatus.OK);
     }
 
     @PutMapping("editarHotel")
     public ResponseEntity<HotelDTO> editarHotel(@RequestParam("idHotel") Long idHotel, @RequestBody HotelDTO hotelDTO){
-        return new ResponseEntity<>(hotelService.editarHotel(idHotel, hotelDTO), HttpStatus.FOUND);
+        return new ResponseEntity<>(hotelService.editarHotel(idHotel, hotelDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("borrarHotel")
     public ResponseEntity<HotelDTO> borrarHotel(@RequestParam("idHotel") Long idHotel){
-        return new ResponseEntity<>(hotelService.borrarHotel(idHotel), HttpStatus.FOUND);
+        return new ResponseEntity<>(hotelService.borrarHotel(idHotel), HttpStatus.OK);
     }
 }
