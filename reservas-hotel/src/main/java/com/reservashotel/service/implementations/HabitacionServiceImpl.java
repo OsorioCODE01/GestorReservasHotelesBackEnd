@@ -30,12 +30,22 @@ public class HabitacionServiceImpl implements HabitacionService {
 
     @Override
     public HabitacionDTO crearHabitacion(HabitacionDTO habitacionDTO) {
+        //Validaciones de la informacion que viene en HabitacionDTO
         if(habitacionDTO.getIdHotel() == null  || habitacionDTO.getNumHabitacion().isEmpty()) throw new BadRequestException("No se pueden omitir datos de la habitacion");
         if(habitacionDTO.getStatus() == null) habitacionDTO.setStatus(false);
         HabitacionEntity habitacionEntity = modelMapper.map(habitacionDTO, HabitacionEntity.class);
-        habitacionEntity = habitacionRespository.save(habitacionEntity);
 
-        HotelEntity hotelEntity = hotelRespository.findById(habitacionDTO.getIdHotel().getIdHotel())
+        //Verficacion de que no halla sido añadida previamente al hotel.
+        List<HabitacionEntity> habitacionesHotel = habitacionRespository.findByIdHotel(habitacionDTO.getIdHotel().getIdHotel());
+        for (HabitacionEntity habitacion : habitacionesHotel) {
+            if (habitacion.getNumHabitacion().equals(habitacionDTO.getNumHabitacion())) {
+                throw new BadRequestException("La habitación ya existe en el hotel.");
+            }
+        }
+
+        habitacionEntity = habitacionRespository.save(habitacionEntity); //Se guarda habitacion en la base de datos
+
+        HotelEntity hotelEntity = hotelRespository.findById(habitacionDTO.getIdHotel().getIdHotel()) //Busco el hotel en cual añadir habitaciones
                 .orElseThrow(()-> new BadRequestException("No se econtro un hotel con la id: "+habitacionDTO.getIdHotel().getIdHotel()));
 
         hotelEntity.agregarHabitacion(habitacionEntity);

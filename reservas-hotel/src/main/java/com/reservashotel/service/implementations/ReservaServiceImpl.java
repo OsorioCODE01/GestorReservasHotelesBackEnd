@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -120,6 +121,10 @@ public class ReservaServiceImpl implements ReservaService {
             case 3 -> {
                 HabitacionEntity nuevaHabitacion = habitacionRespository.findById(idObjeto)
                         .orElseThrow(() -> new BadRequestException("No se econtró ninguna habitacion con id: " + idObjeto));
+                reservaEntity.getHabitaciones().forEach(habitacionEntity -> {
+                    if(Objects.equals(habitacionEntity.getNumHabitacion(), nuevaHabitacion.getNumHabitacion()))throw new BadRequestException("Esa habitaicon ya ha sido añadida");
+
+            });
                 reservaEntity.agregarHabitacion(nuevaHabitacion);
             }
             case 4 -> {
