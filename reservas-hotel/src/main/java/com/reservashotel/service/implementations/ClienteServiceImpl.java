@@ -1,17 +1,20 @@
 package com.reservashotel.service.implementations;
 
-
 import com.reservashotel.model.entities.ClienteEntity;
+import com.reservashotel.model.entities.HabitacionEntity;
+import com.reservashotel.model.entities.ReservaEntity;
 import com.reservashotel.model.repository.ClienteRespository;
+import com.reservashotel.model.repository.ReservaRepository;
 import com.reservashotel.service.interfaces.ClienteService;
 import com.reservashotel.web.dto.ClienteDTO;
-
 import com.reservashotel.web.exceptions.types.BadRequestException;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +26,9 @@ public class ClienteServiceImpl  implements ClienteService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private  ReservaRepository reservaRepository;
 
     @Override
     public ClienteDTO crearCliente(ClienteDTO clienteDTO) {
@@ -59,11 +65,22 @@ public class ClienteServiceImpl  implements ClienteService {
     }
 
     @Override
+    @Transactional
     public ClienteDTO eliminarCliente(Long idCliente) {
         ClienteEntity clienteEntity = clienteRespository.findById(idCliente).
                 orElseThrow(()-> new BadRequestException("no de econtro un cliente con la id: " + idCliente));
+        List<ReservaEntity> reservasAsociadas = reservaRepository.findByIdCliente(idCliente).orElse(new ArrayList<>());
 
-        clienteRespository.delete(clienteEntity);
+        for(ReservaEntity reserva :reservasAsociadas){
+            for (HabitacionEntity habitacion: reserva.getHabitaciones()){
+                habitacion.setStatus(false);
+            }
+            reservaRepository.borrarHabitacionesDeLasReservas(reserva.getIdReserva());
+        }
+
+        clienteRespository.elimnarClienteDeReservas(idCliente);//Borro el cliente de todas las reservas donde haya sido añadido
+        clienteRespository.elimnarReservasConElCliente(idCliente);//Borro las reservas que tengan el cliente Asociado
+        clienteRespository.eliminarCliente(idCliente);
 
         return modelMapper.map(clienteEntity, ClienteDTO.class);
     }

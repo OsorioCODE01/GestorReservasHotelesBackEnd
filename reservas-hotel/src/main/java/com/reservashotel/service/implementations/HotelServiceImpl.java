@@ -2,16 +2,22 @@ package com.reservashotel.service.implementations;
 
 
 
+import com.reservashotel.model.entities.HabitacionEntity;
 import com.reservashotel.model.entities.HotelEntity;
+import com.reservashotel.model.entities.ReservaEntity;
 import com.reservashotel.model.repository.HotelRespository;
+import com.reservashotel.model.repository.ReservaRepository;
 import com.reservashotel.service.interfaces.HotelService;
 import com.reservashotel.web.dto.HotelDTO;
 import com.reservashotel.web.dto.response.HotelResponse;
 import com.reservashotel.web.exceptions.types.BadRequestException;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +31,8 @@ public class HotelServiceImpl  implements HotelService {
     private ModelMapper modelMapper;
 
 
+    @Autowired
+    private ReservaRepository reservaRepository;
 
 
     @Override
@@ -66,8 +74,17 @@ public class HotelServiceImpl  implements HotelService {
     }
 
     @Override
+    @Transactional
     public HotelDTO borrarHotel(Long idHotel) {
         HotelEntity hotelEntity = hotelRespository.findById(idHotel).orElseThrow(()-> new BadRequestException("no se econtro un hotel con la id: " +idHotel));
+
+        List<ReservaEntity> reservasAsociadas = reservaRepository.findByIdHotel(idHotel).orElse(new ArrayList<>());
+
+        for (ReservaEntity reserva : reservasAsociadas){
+            reservaRepository.borrarHabitacionesDeLasReservas(reserva.getIdReserva());
+        }
+        hotelRespository.eliminarReservasConElHotel(idHotel);
+        hotelRespository.eliminarHabitacionesDelHotel(idHotel);
         hotelRespository.delete(hotelEntity);
         return modelMapper.map(hotelEntity, HotelDTO.class);
     }
